@@ -1,2 +1,6 @@
 11ASD
+<<<<<<< HEAD
 AAAAAAAAAAA
+=======
+new AND
+>>>>>>> featural
