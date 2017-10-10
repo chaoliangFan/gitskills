@@ -10,6 +10,16 @@ public class NewsData {
     private String desc;
     private String url;
 
+    @Override
+    public String toString() {
+        return "NewsData{" +
+                "icon='" + icon + '\'' +
+                ", title='" + title + '\'' +
+                ", desc='" + desc + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
+
     public String getImgUrl() {
         return icon;
     }

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -42,8 +43,10 @@ public class NewsActivity extends AppCompatActivity {
         });
 
 
+
         String str = (String) getJson(fileName,NewsActivity.this);
         parseJsonWithGson(str);
+
 
 
 
@@ -67,6 +70,7 @@ public class NewsActivity extends AppCompatActivity {
         for (NewsData news : newsList){
             NewsData newsData = new NewsData();
             newsData.setImgUrl(news.getImgUrl());
+            Log.d("N******************",news.toString());
             newsData.setTitle(news.getTitle());
             newsData.setDetails(news.getDetails());
             newsData.setUrl(news.getUrl());
