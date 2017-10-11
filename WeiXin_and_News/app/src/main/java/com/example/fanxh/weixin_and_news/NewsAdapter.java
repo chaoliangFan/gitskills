@@ -70,6 +70,7 @@ public class NewsAdapter extends ArrayAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 //if (getImageViewInputStream(newsData.getImgUrl()))
+        viewHolder.newsImage.setTag(newsData.getIcon());
         getImageViewInputStream(newsData.getIcon());
 //        viewHolder.newsImage.setImageBitmap(bitmap);
         viewHolder.newsTitleText.setText(newsData.getTitle());
