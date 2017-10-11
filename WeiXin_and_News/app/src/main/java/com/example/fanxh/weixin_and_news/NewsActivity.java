@@ -26,12 +26,13 @@ public class NewsActivity extends AppCompatActivity {
     private List<NewsData> newsDataList = new ArrayList<NewsData>();
     private ListView newsList;
     private ImageView back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.hide();
         }
         back = (ImageView) findViewById(R.id.back);
@@ -41,16 +42,8 @@ public class NewsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-        String str = (String) getJson(fileName,NewsActivity.this);
-        parseJsonWithGson(str);
-
-
-
-
-        NewsAdapter adapter = new NewsAdapter(this,R.layout.news_item,newsDataList);
+        parseJsonWithGson(getJson(fileName, NewsActivity.this));
+        NewsAdapter adapter = new NewsAdapter(this, R.layout.news_item, newsDataList);
         newsList = (ListView) findViewById(R.id.news_show);
         newsList.setAdapter(adapter);
         newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,20 +57,26 @@ public class NewsActivity extends AppCompatActivity {
         });
     }
 
-    private void parseJsonWithGson(String jsonData){
-        Gson gson = new Gson();
-        List<NewsData> newsList = gson.fromJson(jsonData,new TypeToken<List<NewsData>>(){}.getType());
-        for (NewsData news : newsList){
-            NewsData newsData = new NewsData();
-            newsData.setImgUrl(news.getImgUrl());
-            Log.d("N******************",news.toString());
-            newsData.setTitle(news.getTitle());
-            newsData.setDetails(news.getDetails());
-            newsData.setUrl(news.getUrl());
-            newsDataList.add(newsData);
-        }
+    private void parseJsonWithGson(final String jsonData) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Gson gson = new Gson();
+                List<NewsData> newsList = gson.fromJson(jsonData, new TypeToken<List<NewsData>>() {
+                }.getType());
+                for (NewsData news : newsList) {
+                    NewsData newsData = new NewsData(null, null, null, null);
+                    newsData.setIcon(news.getIcon());
+                    newsData.setTitle(news.getTitle());
+                    newsData.setDesc(news.getDesc());
+                    newsData.setUrl(news.getUrl());
+                    newsDataList.add(newsData);
+                }
+            }
+        }).start();
     }
-    public static String getJson(String fileName,Context context) {
+
+    public String getJson(String fileName, Context context) {
         //将json数据变成字符串
         StringBuilder stringBuilder = new StringBuilder();
         try {

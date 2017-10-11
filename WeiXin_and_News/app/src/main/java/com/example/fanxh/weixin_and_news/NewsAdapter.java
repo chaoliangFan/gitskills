@@ -37,14 +37,13 @@ public class NewsAdapter extends ArrayAdapter {
     private ImageView newsImage;
     ViewHolder viewHolder;
     Bitmap bitmap;
-
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SHOW_RESPONSE:
                     bitmap = (Bitmap) msg.obj;
                     viewHolder.newsImage.setImageBitmap(bitmap);
-    //                 newsImage.setImageBitmap(bitmap);
+                    //                 newsImage.setImageBitmap(bitmap);
             }
         }
     };
@@ -59,13 +58,9 @@ public class NewsAdapter extends ArrayAdapter {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         NewsData newsData = (NewsData) getItem(position);
         View view;
-//        ViewHolder viewHolder;
         if (convertView == null) {
-
             view = LayoutInflater.from(getContext()).inflate(resourceId, null);
-
             viewHolder = new ViewHolder();
-//            getImageViewInputStream(newsData.getImgUrl());
             viewHolder.newsImage = (ImageView) view.findViewById(R.id.news_image);
             viewHolder.newsTitleText = (TextView) view.findViewById(R.id.news_title);
             viewHolder.newsDetailsText = (TextView) view.findViewById(R.id.news_details);
@@ -74,16 +69,13 @@ public class NewsAdapter extends ArrayAdapter {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        ;
-        getImageViewInputStream(newsData.getImgUrl());
-   //     viewHolder.newsImage.setImageBitmap(bitmap);
-
-
+//if (getImageViewInputStream(newsData.getImgUrl()))
+        getImageViewInputStream(newsData.getIcon());
+//        viewHolder.newsImage.setImageBitmap(bitmap);
         viewHolder.newsTitleText.setText(newsData.getTitle());
-        viewHolder.newsDetailsText.setText(newsData.getDetails());
+        viewHolder.newsDetailsText.setText(newsData.getDesc());
         return view;
     }
-
 
     class ViewHolder {
         ImageView newsImage;
@@ -91,20 +83,17 @@ public class NewsAdapter extends ArrayAdapter {
         TextView newsDetailsText;
     }
 
-
     public void getImageViewInputStream(final String string) {
-
         new Thread(new Runnable() {
             @Override
             public void run() {
                 InputStream inputStream = null;
                 Bitmap bitmap = null;
                 try {
-
                     URL url = new URL(string);
                     if (url != null) {
                         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                        httpURLConnection.setConnectTimeout(10000);
+                        httpURLConnection.setConnectTimeout(3000);
                         httpURLConnection.setRequestMethod("GET");
                         httpURLConnection.setDoInput(true);
                         int responseCode = httpURLConnection.getResponseCode();
@@ -118,37 +107,12 @@ public class NewsAdapter extends ArrayAdapter {
                             message.obj = bitmap;
                             handler.sendMessage(message);
                         }
-
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-
-
-    }
-
-
-
-    private Bitmap downloadBitmap(String imageUrl) {
-        Bitmap bitmap = null;
-        HttpURLConnection con = null;
-        try {
-            URL url = new URL(imageUrl);
-            con = (HttpURLConnection) url.openConnection();
-            con.setConnectTimeout(5 * 1000);
-            con.setReadTimeout(10 * 1000);
-            bitmap = BitmapFactory.decodeStream(con.getInputStream());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (con != null) {
-                con.disconnect();
-            }
-        }
-        return bitmap;
     }
 
 
