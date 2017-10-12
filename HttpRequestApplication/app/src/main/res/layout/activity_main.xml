@@ -36,6 +36,7 @@
         android:background="@color/line_between_color" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/fortunetelling_show"
         android:layout_width="match_parent"
         android:layout_height="191dp" />
 </LinearLayout>
