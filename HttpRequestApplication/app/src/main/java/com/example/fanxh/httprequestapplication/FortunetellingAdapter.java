@@ -73,8 +73,20 @@ public class FortunetellingAdapter extends RecyclerView.Adapter <FortunetellingA
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fortunetelling_item,parent,false);
         final ViewHolder holder = new ViewHolder(view);
-
         holder.fortunetellingView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                FortunetellingBean fortunetellingBean = mFortunetellingBeanList.get(position);
+
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(fortunetellingBean.getUrl()));
+                MyApplication.getContext().startActivity(intent);
+            }
+        });
+
+        holder.iconUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
@@ -101,7 +113,7 @@ public class FortunetellingAdapter extends RecyclerView.Adapter <FortunetellingA
             BitmapWorkerTask task = new BitmapWorkerTask();
             task.execute(fortunetellingBean.getIconUrl());
         }
-        holder.name.setText(fortunetellingBean.getName());
+ //       holder.name.setText(fortunetellingBean.getName());
     }
     @Override
     public int getItemCount() {

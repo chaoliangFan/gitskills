@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         FortunetellingAdapter adapter = new FortunetellingAdapter(fbList);
         recyclerView.setAdapter(adapter);
+        Log.d("**********","数据装入适配器");
     }
         private void parseJsonWithJsonObject(String jsonData){
         try {
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 FortunetellingBean fortunetellingBean = new FortunetellingBean();
                 fortunetellingBean.setName(jsonObject.getString("name"));
                 fortunetellingBean.setUrl(jsonObject.getString("url"));
+                Log.d("**********","解析json数据成功");
                 fortunetellingBean.setIconUrl(jsonObject.getString("iconUrl"));
                 fbList.add(fortunetellingBean);
             }
