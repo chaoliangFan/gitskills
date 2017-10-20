@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.fortunetelling_show);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
